@@ -5,10 +5,22 @@ resources:
     uri: https://github.com/dnguyen68/flight-school
     branch: master
 
+- name: staging-app
+  type: cf
+  source:
+    api: http://api.run.pivotal.io
+    username: dnguyen68@yahoo.com
+    password: D@nny68N
+    organization: daniel
+    space: development
+
+
 jobs:
 - name: test-app
   plan:
   - get: flight-school
-    trigger: true
   - task: tests
     file: flight-school/build.yml
+  - put: staging-app
+    params:
+      manifest: flight-school/manifest.yml
